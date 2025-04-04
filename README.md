@@ -1,6 +1,6 @@
 # Exécution simplifiée d'un cluster ArangoDB via Docker Compose
 
-1°) Pour tester, après avoir cloné ce dépôt :
+1°) Pour tester, après avoir clôné ce dépôt :
 
 ```
 sudo rm -Rf arangodb-cluster-compose
