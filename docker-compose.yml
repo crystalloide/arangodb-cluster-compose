@@ -1,79 +1,99 @@
 services:
   agency1:
     container_name: agency1
-    hostname: agency1
-    image: arangodb:3.9
+#    build:
+#      context: ./
+#      dockerfile: Dockerfile
+    image: arangodb:latest
     ports:
       - "8529"
     environment:
       - ARANGO_NO_AUTH=1
-    command: arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency1:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.supervision true
+#    command: arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency1:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.supervision true
     volumes:
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
+      - ./wait-for-it2.sh:/opt/wait-for-it2.sh
+    entrypoint: >
+      /bin/sh -c "
+        #ls;
+        arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency1:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.supervision true"
 
   agency2:
     container_name: agency2
-    hostname: agency2
-    image: arangodb:3.9
+    image: arangodb:latest
     depends_on:
       - agency1
     ports:
       - "8529"
     environment:
       - ARANGO_NO_AUTH=1
-    command: arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency2:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.supervision true
+#    command: arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency2:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.supervision true
     volumes:
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
+      - ./wait-for-it2.sh:/opt/wait-for-it2.sh
+    entrypoint: >
+      /bin/sh -c "
+        #ls;
+        arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency2:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.supervision true"
 
   agency3:
     container_name: agency3
-    hostname: agency3
-    image: arangodb:3.9
+    image: arangodb:latest
     depends_on:
       - agency2
     ports:
       - "8529"
     environment:
       - ARANGO_NO_AUTH=1
-    command: /opt/wait-for-it.sh agency1:8529 -- arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency3:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.endpoint tcp://agency1:8529 --agency.endpoint tcp://agency2:8529 --agency.endpoint tcp://agency3:8529 --agency.supervision true
+#    command: /opt/wait-for-it.sh agency1:8529 -- arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency3:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.endpoint tcp://agency1:8529 --agency.endpoint tcp://agency2:8529 --agency.endpoint tcp://agency3:8529 --agency.supervision true
     volumes:
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
+      - ./wait-for-it2.sh:/opt/wait-for-it2.sh
+    entrypoint: >
+      /bin/sh -c "
+        #ls;
+        /opt/wait-for-it2.sh agency1 8529 70 ; 
+        arangod --server.endpoint tcp://0.0.0.0:8529 --agency.my-address=tcp://agency3:8529 --server.authentication false --agency.activate true --agency.size 3 --agency.endpoint tcp://agency1:8529 --agency.endpoint tcp://agency2:8529 --agency.endpoint tcp://agency3:8529 --agency.supervision true"
 
   primary1:
     restart: always
     container_name: primary1
-    hostname: primary1
-    image: arangodb:3.9
+    image: arangodb:latest
     depends_on:
       - agency3
     ports:
       - "8529"
     environment:
       - ARANGO_NO_AUTH=1
-    command: /opt/wait-for-it.sh agency3:8529 -- arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://primary1:8529 --cluster.my-local-info db1 --cluster.my-role PRIMARY --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529
+#    command: /opt/wait-for-it.sh agency3:8529 -- arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://primary1:8529 --cluster.my-local-info db1 --cluster.my-role PRIMARY --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529
     volumes:
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
+      - ./wait-for-it2.sh:/opt/wait-for-it2.sh
+    entrypoint: >
+      /bin/sh -c "
+        #ls;
+        /opt/wait-for-it.sh2 agency3 8529 70 ; 
+        arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://primary1:8529 --cluster.my-local-info db1 --cluster.my-role PRIMARY --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529"
 
   primary2:
     restart: always
     container_name: primary2
-    hostname: primary2
-    image: arangodb:3.9
+    image: arangodb:latest
     depends_on:
       - agency3
     ports:
       - "8529"
     environment:
       - ARANGO_NO_AUTH=1
-    command: /opt/wait-for-it.sh agency3:8529 -- arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://primary2:8529 --cluster.my-local-info db1 --cluster.my-role PRIMARY --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529
+#    command: /opt/wait-for-it.sh agency3:8529 -- arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://primary2:8529 --cluster.my-local-info db1 --cluster.my-role PRIMARY --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529
     volumes:
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
+      - ./wait-for-it2.sh:/opt/wait-for-it2.sh
+    entrypoint: >
+      /bin/sh -c "
+        #ls;
+        /opt/wait-for-it2.sh agency3 8529 70 ; 
+        arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://primary2:8529 --cluster.my-local-info db1 --cluster.my-role PRIMARY --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529"
 
   coordinator1:
     restart: always
     container_name: coordinator1
-    hostname: coordinator1
-    image: arangodb:3.9
+    image: arangodb:latest
     depends_on:
       - primary1
       - primary2
@@ -81,6 +101,11 @@ services:
       - "11001:8529"
     environment:
       - ARANGO_NO_AUTH=1
-    command: /opt/wait-for-it.sh primary2:8529 -- arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://coordinator1:8529 --cluster.my-local-info coord1 --cluster.my-role COORDINATOR --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529
+#    command: /opt/wait-for-it.sh primary2:8529 -- arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://coordinator1:8529 --cluster.my-local-info coord1 --cluster.my-role COORDINATOR --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529
     volumes:
-      - ./wait-for-it.sh:/opt/wait-for-it.sh
+      - ./wait-for-it2.sh:/opt/wait-for-it2.sh
+    entrypoint: >
+      /bin/sh -c "
+        #ls;
+        /opt/wait-for-it2.sh primary2 8529 70 ;
+        arangod --server.authentication=false --server.endpoint tcp://0.0.0.0:8529 --cluster.my-address tcp://coordinator1:8529 --cluster.my-local-info coord1 --cluster.my-role COORDINATOR --cluster.agency-endpoint tcp://agency1:8529 --cluster.agency-endpoint tcp://agency2:8529 --cluster.agency-endpoint tcp://agency3:8529"
