@@ -1,10 +1,10 @@
-# Docker compose for run ArangoDB cluster
-Simplified Running ArangoDB cluster via Docker compose
+# Exécution simplifiée d'un cluster ArangoDB via Docker Compose
 
-This is experimental, pull requests are highly encouraged. The main goal of this project is to simplified scale up and scale down ArangoDB cluster inside of Docker Swarm.
-
-To give it a try, after cloning this repo, go to `arangodb-cluster-compose` folder then run:
+Pour tester, après avoir cloné ce dépôt, accédez au dossier « arangodb-cluster-compose » et exécutez
 
 ```
 docker-compose -p arangodb-cluster up --build
 ```
+
+Navigateur sur l'URL du coordinateur : 
+http://localhost:11001/
