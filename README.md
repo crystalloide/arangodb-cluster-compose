@@ -8,6 +8,7 @@ git clone https://github.com/crystalloide/arangodb-cluster-compose
 2°) Accédez au dossier « arangodb-cluster-compose » :
 ```
 cd arangodb-cluster-compose
+sudo chmod 777 wait-for-it.sh    
 ```
 
 3°) lancez l'environnement :
