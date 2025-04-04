@@ -2,7 +2,7 @@
 
 1°) Pour tester, après avoir cloné ce dépôt :
 ```
-    github clone https://github.com/crystalloide/arangodb-cluster-compose
+github clone https://github.com/crystalloide/arangodb-cluster-compose
 ```
     
 2°) Accédez au dossier « arangodb-cluster-compose » :
