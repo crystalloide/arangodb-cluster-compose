@@ -1,4 +1,4 @@
-# Exécution simplifiée d'un cluster ArangoDB via Docker Compose
+## Exécution simplifiée d'un cluster ArangoDB via Docker Compose
 
 1°) Pour tester, après avoir clôné ce dépôt :
 
