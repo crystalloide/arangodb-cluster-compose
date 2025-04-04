@@ -15,7 +15,7 @@ cd arangodb-cluster-compose
 ```
 
 ```
-sudo chmod 777 wait-for-it.sh    
+sudo chmod +x wait-for-it2.sh    
 ```
 
 3°) lancez l'environnement :
