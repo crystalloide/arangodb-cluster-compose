@@ -1,9 +1,7 @@
 services:
   agency1:
     container_name: agency1
-#    build:
-#      context: ./
-#      dockerfile: Dockerfile
+    hostname: agency1
     image: arangodb:3.9
     ports:
       - "8529"
@@ -15,6 +13,7 @@ services:
 
   agency2:
     container_name: agency2
+    hostname: agency2
     image: arangodb:3.9
     depends_on:
       - agency1
@@ -28,6 +27,7 @@ services:
 
   agency3:
     container_name: agency3
+    hostname: agency3
     image: arangodb:3.9
     depends_on:
       - agency2
@@ -42,6 +42,7 @@ services:
   primary1:
     restart: always
     container_name: primary1
+    hostname: primary1
     image: arangodb:3.9
     depends_on:
       - agency3
@@ -56,6 +57,7 @@ services:
   primary2:
     restart: always
     container_name: primary2
+    hostname: primary2
     image: arangodb:3.9
     depends_on:
       - agency3
@@ -70,6 +72,7 @@ services:
   coordinator1:
     restart: always
     container_name: coordinator1
+    hostname: coordinator1
     image: arangodb:3.9
     depends_on:
       - primary1
