@@ -36,7 +36,8 @@ docker ps -a
 http://localhost:11001/
 ```
 
-![image](https://github.com/user-attachments/assets/d7dd32bb-2b79-4537-a553-ab1b9d3930ff)
+![image](https://github.com/user-attachments/assets/4dfac026-a23a-402c-9bc3-bb9590143095)
+
 
 6°) Pour arrêter et démonter l'environnement :: 
 ```
