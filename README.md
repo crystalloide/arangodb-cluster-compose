@@ -12,7 +12,7 @@ cd arangodb-cluster-compose
 
 3°) lancez l'environnement :
 ```
-docker-compose -p arangodb-cluster up --build
+docker compose -f docker-compose.yml up -d
 ```
 
 4°) Allez ensuite avec un navigateur web sur l'URL du coordinateur : 
@@ -21,3 +21,11 @@ http://localhost:11001/
 ```
 
 ![image](https://github.com/user-attachments/assets/d7dd32bb-2b79-4537-a553-ab1b9d3930ff)
+
+5°) Pour arrêter et démonter l'environnement :: 
+```
+docker compose -f docker-compose.yml down
+docker volume prune -a -f
+docker volume ls
+docker ps -a
+```
