@@ -1,6 +1,10 @@
 # Exécution simplifiée d'un cluster ArangoDB via Docker Compose
 
 1°) Pour tester, après avoir cloné ce dépôt :
+
+```
+sudo rm -Rf arangodb-cluster-compose
+```
 ```
 git clone https://github.com/crystalloide/arangodb-cluster-compose
 ```
